@@ -1,5 +1,72 @@
-select * from `workspace`.`bright_tv`.`viewership` limit 100;
----
+--=============================================================
+--1.DATA EXPLORATION
+--=============================================================
+SELECT * 
+FROM `workspace`.`bright_tv`.`user_profile` limit 100;
+SELECT *
+    FROM `workspace`.`bright_tv`.`viewership` limit 100;
+
+--=============================================================
+--2.Checking unique Users
+--=============================================================
+SELECT COUNT(DISTINCT UserID) AS unique_users
+FROM `workspace`.`bright_tv`.`user_profile`;
+
+--We have  5375 Unique users
+
+--=============================================================
+--3.Gender Distribution
+--=============================================================
+SELECT gender, 
+       COUNT(*) AS count
+FROM `workspace`.`bright_tv`.`user_profile`
+GROUP BY gender;
+--We have 3918 males, 537 female and 920 Unknown Users
+
+--=============================================================
+--4. Province distribution
+--=============================================================
+SELECT province, COUNT(*) AS count
+FROM `workspace`.`bright_tv`.`user_profile`
+GROUP BY province;
+
+-- The dataset consist of 9 different Provinces with 1 Unknown province
+
+--===============================================================
+--5. Race distribution
+--===============================================================
+SELECT race, COUNT(*) AS count
+FROM `workspace`.`bright_tv`.`user_profile`
+GROUP BY race;
+
+--We have 760 white people, 
+--1811 black, 
+--679 Coloured people, 
+--768 indian_asian and 1357 with no specified race
+
+--=============================================================
+--6. Check NULL values (VERY IMPORTANT)
+--=============================================================
+SELECT 
+  COUNT(*) AS total_rows,
+  COUNT(gender) AS known_gender,
+  COUNT(*) - COUNT(gender) AS null_gender
+FROM `workspace`.`bright_tv`.`user_profile`;
+
+--No Nulls detected
+
+--=============================================================
+-- 7. Checking Age Range
+--=============================================================
+SELECT 
+      MIN(age) As Youngest,
+      MAX(Age) AS Oldest
+FROM `workspace`.`bright_tv`.`user_profile`;
+ 
+--Our youngest people are 0 years and the oldest are 114 years
+--==============================================================
+--DATA CLEANING AND JOINING 
+--==============================================================
 SELECT
     -- User Info
     `v`.`UserID0` AS user_id,
